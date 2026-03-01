@@ -1,0 +1,127 @@
+name: Rollout Gates
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  gates:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install Node dependencies
+        run: npm ci
+
+      - name: Gate 0 - Baseline (no credentials)
+        env:
+          PUBLIC_SITE_URL: https://phys-math.dev
+          PUBLIC_MEDIA_BASE_URL: https://media.phys-math.dev
+        run: |
+          npm run build
+          python -m py_compile scripts/*.py
+          echo "Gate 0 passed"
+
+      - name: Gate 1 - Telegram API ID and Hash
+        env:
+          TELEGRAM_API_ID: ${{ secrets.TELEGRAM_API_ID }}
+          TELEGRAM_API_HASH: ${{ secrets.TELEGRAM_API_HASH }}
+        run: |
+          missing=()
+
+          [[ -n "${TELEGRAM_API_ID}" ]] || missing+=("TELEGRAM_API_ID")
+          [[ -n "${TELEGRAM_API_HASH}" ]] || missing+=("TELEGRAM_API_HASH")
+
+          if [[ ${#missing[@]} -gt 0 ]]; then
+            echo "::error::Gate 1 failed. Add GitHub secrets: ${missing[*]}"
+            exit 1
+          fi
+
+          echo "Gate 1 passed"
+
+      - name: Gate 2 - Telegram StringSession and channel access
+        env:
+          TELEGRAM_API_ID: ${{ secrets.TELEGRAM_API_ID }}
+          TELEGRAM_API_HASH: ${{ secrets.TELEGRAM_API_HASH }}
+          TELEGRAM_STRING_SESSION: ${{ secrets.TELEGRAM_STRING_SESSION }}
+          TELEGRAM_CHANNEL: phys_math_dev
+        run: |
+          if [[ -z "${TELEGRAM_STRING_SESSION}" ]]; then
+            echo "::error::Gate 2 failed. Add GitHub secret TELEGRAM_STRING_SESSION"
+            exit 1
+          fi
+
+          python scripts/sync_telegram.py --dry-run --skip-media --recent-window 20 --skip-delete-audit
+
+          echo "Gate 2 passed"
+
+      - name: Gate 3 - R2 media credentials
+        env:
+          R2_ENDPOINT: ${{ secrets.R2_ENDPOINT }}
+          R2_BUCKET: ${{ secrets.R2_BUCKET }}
+          R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          R2_PUBLIC_BASE_URL: ${{ secrets.R2_PUBLIC_BASE_URL }}
+        run: |
+          missing=()
+
+          [[ -n "${R2_ENDPOINT}" ]] || missing+=("R2_ENDPOINT")
+          [[ -n "${R2_BUCKET}" ]] || missing+=("R2_BUCKET")
+          [[ -n "${R2_ACCESS_KEY_ID}" ]] || missing+=("R2_ACCESS_KEY_ID")
+          [[ -n "${R2_SECRET_ACCESS_KEY}" ]] || missing+=("R2_SECRET_ACCESS_KEY")
+          [[ -n "${R2_PUBLIC_BASE_URL}" ]] || missing+=("R2_PUBLIC_BASE_URL")
+
+          if [[ ${#missing[@]} -gt 0 ]]; then
+            echo "::error::Gate 3 failed. Add GitHub secrets: ${missing[*]}"
+            exit 1
+          fi
+
+          python -c "import os,boto3; c=boto3.client('s3', endpoint_url=os.environ['R2_ENDPOINT'], aws_access_key_id=os.environ['R2_ACCESS_KEY_ID'], aws_secret_access_key=os.environ['R2_SECRET_ACCESS_KEY'], region_name='auto'); c.list_objects_v2(Bucket=os.environ['R2_BUCKET'], MaxKeys=1); print('R2 credentials OK for bucket=' + os.environ['R2_BUCKET'])"
+
+          echo "Gate 3 passed"
+
+      - name: Gate 4 - Cloudflare Pages deploy credentials
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CF_PAGES_PROJECT_NAME: ${{ secrets.CF_PAGES_PROJECT_NAME }}
+          PUBLIC_SITE_URL: https://phys-math.dev
+          PUBLIC_MEDIA_BASE_URL: ${{ secrets.R2_PUBLIC_BASE_URL }}
+        run: |
+          missing=()
+
+          [[ -n "${CLOUDFLARE_API_TOKEN}" ]] || missing+=("CLOUDFLARE_API_TOKEN")
+          [[ -n "${CLOUDFLARE_ACCOUNT_ID}" ]] || missing+=("CLOUDFLARE_ACCOUNT_ID")
+          [[ -n "${CF_PAGES_PROJECT_NAME}" ]] || missing+=("CF_PAGES_PROJECT_NAME")
+
+          if [[ ${#missing[@]} -gt 0 ]]; then
+            echo "::error::Gate 4 failed. Add GitHub secrets: ${missing[*]}"
+            exit 1
+          fi
+
+          npm run build
+          npx wrangler pages deploy dist \
+            --project-name "${CF_PAGES_PROJECT_NAME}" \
+            --branch "rollout-gates-${GITHUB_RUN_NUMBER}"
+
+          echo "Gate 4 passed"

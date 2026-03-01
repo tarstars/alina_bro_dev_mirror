@@ -1,0 +1,15 @@
+node_modules/
+dist/
+.astro/
+.env
+.env.*
+!.env.example
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+
+# Local artifacts
+get_confirmation.md
+phys_math_dev_mirror_important_sources.tar.gz
+pics/
