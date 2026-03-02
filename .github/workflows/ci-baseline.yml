@@ -39,8 +39,8 @@ jobs:
 
       - name: Build static site
         env:
-          PUBLIC_SITE_URL: https://phys-math.dev
-          PUBLIC_MEDIA_BASE_URL: https://media.phys-math.dev
+          PUBLIC_SITE_URL: https://example.com
+          PUBLIC_MEDIA_BASE_URL: https://media.example.com
         run: npm run build
 
       - name: Compile-check Python scripts

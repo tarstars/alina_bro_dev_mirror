@@ -1,36 +1,22 @@
-# phys-math.dev Mirror
+# Channel Mirror Template
 
-Bilingual static mirror for `https://t.me/s/phys_math_dev` with:
+Bilingual static mirror template for Telegram channels.
+
+This repository contains infrastructure only (sync scripts, build/deploy pipelines, and site shell) with no imported channel content.
+
+## What is included
 
 - `/en/...` and `/ru/...` routes
 - daily EN incremental sync from Telegram API
 - RU workflow with draft/review statuses and non-destructive updates
-- SEO-focused static pages for Google and Yandex
+- SEO-friendly static pages (robots/sitemap/rss)
 - deploy from GitHub Actions to Cloudflare Pages via Wrangler
 
 ## Stack
 
 - Astro (static site)
 - Python + Telethon (Telegram sync)
-- Cloudflare Pages + R2 + Web Analytics
-
-## Project policies
-
-- Keep analytics counters enabled on all HTML pages:
-  - Google tag ID: `G-KW8VXVXW7N`
-  - Yandex.Metrika counter ID: `106989967`
-- Source of truth for counters:
-  - `src/layouts/BaseLayout.astro` (all regular EN/RU content pages)
-  - `src/pages/index.astro` (root redirect page)
-- Any new standalone page that does not use `BaseLayout` must include both counters manually.
-- Do not remove or replace these counters without explicit approval from the project owner.
-- RU translation review must follow a manual checklist workflow:
-  - create a full list of target messages/files first
-  - process one message at a time (EN source + RU translation)
-  - fix translation only for the current item
-  - mark this item as done in the checklist
-  - repeat in an agent loop until all items are done
-- Do not implement programmable/batch loops for RU translation review or fixes.
+- Cloudflare Pages + R2
 
 ## Local setup
 
@@ -79,7 +65,7 @@ RU status values:
 - `needs_review`: public/indexable after EN changed
 - `locked`: public/indexable, never auto-modified
 
-## Cloudflare + GitHub secrets
+## GitHub secrets
 
 Configure these repository secrets:
 
@@ -94,11 +80,13 @@ Configure these repository secrets:
 - `TELEGRAM_API_ID`
 - `TELEGRAM_API_HASH`
 - `TELEGRAM_STRING_SESSION`
-- `PUBLIC_CF_ANALYTICS_TOKEN` (optional, for analytics)
+- `TELEGRAM_CHANNEL`
+- `PUBLIC_SITE_URL` (recommended)
+- `PUBLIC_CF_ANALYTICS_TOKEN` (optional)
 
 ## Daily automation
 
-Workflow `.github/workflows/daily-sync-deploy.yml` runs daily at `18:00 UTC` (21:00 Moscow):
+Workflow `.github/workflows/daily-sync-deploy.yml` runs daily at `18:00 UTC`:
 
 1. sync EN content incrementally
 2. commit content changes to `main` (if any)

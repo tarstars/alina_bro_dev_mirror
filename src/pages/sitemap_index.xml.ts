@@ -1,8 +1,9 @@
 export function GET() {
+  const site = (import.meta.env.PUBLIC_SITE_URL || 'https://example.com').replace(/\/$/, '');
   const body = `<?xml version="1.0" encoding="UTF-8"?>
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <sitemap>
-    <loc>https://phys-math.dev/sitemap.xml</loc>
+    <loc>${site}/sitemap.xml</loc>
   </sitemap>
 </sitemapindex>
 `;

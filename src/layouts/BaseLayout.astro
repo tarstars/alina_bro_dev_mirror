@@ -25,7 +25,7 @@ const {
   noIndex = false
 } = Astro.props;
 
-const site = import.meta.env.PUBLIC_SITE_URL || 'https://phys-math.dev';
+const site = import.meta.env.PUBLIC_SITE_URL || 'https://example.com';
 const canonicalUrl = new URL(canonicalPath, site).toString();
 const enUrl = new URL(enPath, site).toString();
 const ruUrl = new URL(ruPath, site).toString();
@@ -54,48 +54,13 @@ const opposite = oppositeLocale(locale);
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalUrl} />
-    <meta property="og:site_name" content="PhysMath Hub" />
+    <meta property="og:site_name" content="Channel Mirror" />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
 
     {noIndex && <meta name="robots" content="noindex,nofollow" />}
-
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-KW8VXVXW7N"></script>
-    <script is:inline>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-      gtag('js', new Date());
-
-      gtag('config', 'G-KW8VXVXW7N');
-    </script>
-
-    <!-- Yandex.Metrika counter -->
-    <script type="text/javascript" is:inline>
-      (function(m,e,t,r,i,k,a){
-          m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-          m[i].l=1*new Date();
-          for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
-          k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a);
-      })(window, document, 'script', 'https://mc.yandex.ru/metrika/tag.js?id=106989967', 'ym');
-
-      ym(106989967, 'init', {
-        ssr: true,
-        webvisor: true,
-        clickmap: true,
-        ecommerce: 'dataLayer',
-        referrer: document.referrer,
-        url: location.href,
-        accurateTrackBounce: true,
-        trackLinks: true
-      });
-    </script>
-    <!-- /Yandex.Metrika counter -->
-
     <script is:inline>
       (() => {
         const key = 'theme-preference';
@@ -107,13 +72,9 @@ const opposite = oppositeLocale(locale);
     </script>
   </head>
   <body>
-    <noscript>
-      <div><img src="https://mc.yandex.ru/watch/106989967" style="position:absolute; left:-9999px;" alt="" /></div>
-    </noscript>
-
     <header class="site-header">
       <div class="site-header-inner">
-        <a class="brand" href={thisLocaleHome}>PhysMath Hub</a>
+        <a class="brand" href={thisLocaleHome}>Channel Mirror</a>
 
         <nav class="site-nav" aria-label="Primary">
           <a href={thisLocaleHome}>{UI[locale].home}</a>
@@ -133,7 +94,7 @@ const opposite = oppositeLocale(locale);
     </main>
 
     <footer class="site-footer">
-      <p>PhysMath Hub · Physics · Mathematics · Programming</p>
+      <p>Channel Mirror · Physics · Mathematics · Programming</p>
     </footer>
 
     <script is:inline>

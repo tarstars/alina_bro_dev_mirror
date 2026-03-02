@@ -16,7 +16,7 @@ function xmlEscape(input: string): string {
 }
 
 export function GET() {
-  const site = 'https://phys-math.dev';
+  const site = (import.meta.env.PUBLIC_SITE_URL || 'https://example.com').replace(/\/$/, '');
   const urls: UrlNode[] = [];
 
   const enPosts = Array.from(getEnPostMap({ includeDeleted: false }).values());

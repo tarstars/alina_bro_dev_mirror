@@ -1,9 +1,10 @@
 export function GET() {
+  const site = (import.meta.env.PUBLIC_SITE_URL || 'https://example.com').replace(/\/$/, '');
   const body = `User-agent: *
 Allow: /
 
-Host: https://phys-math.dev
-Sitemap: https://phys-math.dev/sitemap.xml
+Host: ${site}
+Sitemap: ${site}/sitemap.xml
 `;
 
   return new Response(body, {

@@ -717,7 +717,7 @@ def load_config(args: argparse.Namespace) -> Config:
         api_id=api_id,
         api_hash=api_hash,
         string_session=string_session,
-        channel=env('TELEGRAM_CHANNEL', default='phys_math_dev'),
+        channel=env('TELEGRAM_CHANNEL', default='your_channel_username'),
         recent_window=recent,
         max_video_bytes=max_video_bytes,
         r2_endpoint=env('R2_ENDPOINT', default=''),

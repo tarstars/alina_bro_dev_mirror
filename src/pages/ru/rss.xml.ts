@@ -5,7 +5,7 @@ export function GET(context: { site: URL | undefined }) {
   const posts = getLocalePosts('ru', { includeDeleted: false, includeDraft: false });
 
   return rss({
-    title: 'PhysMath Hub (RU)',
+    title: 'Channel Mirror (RU)',
     description: 'Переводы и материалы про физику, математику и программирование.',
     site: context.site,
     customData: '<language>ru-ru</language>',

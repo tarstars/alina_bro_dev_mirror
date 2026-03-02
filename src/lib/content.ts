@@ -43,7 +43,7 @@ function toPost(locale: Locale, filePath: string): PostRecord {
     summary: String(data.summary ?? ''),
     date,
     edited_at: data.edited_at ? String(data.edited_at) : null,
-    channel: String(data.channel ?? 'phys_math_dev'),
+    channel: String(data.channel ?? 'your_channel_username'),
     source_url: String(data.source_url ?? ''),
     source_hash: String(data.source_hash ?? ''),
     deleted: Boolean(data.deleted ?? false),
@@ -124,7 +124,7 @@ export function getRuPostMap(options?: { includeDeleted?: boolean; includeDraft?
 export function getSiteText(locale: Locale): SiteText {
   const filePath = path.join(ROOT, 'content', 'site', `${locale}.md`);
   if (!fs.existsSync(filePath)) {
-    const fallback = locale === 'en' ? 'PhysMath Hub' : 'Хаб ФизМат';
+    const fallback = locale === 'en' ? 'Channel Mirror' : 'Хаб ФизМат';
     return {
       title: fallback,
       subtitle: fallback,
@@ -135,7 +135,7 @@ export function getSiteText(locale: Locale): SiteText {
 
   const { data, content } = readMarkdownFile(filePath);
   return {
-    title: String(data.title ?? 'PhysMath Hub'),
+    title: String(data.title ?? 'Channel Mirror'),
     subtitle: String(data.subtitle ?? ''),
     bodyMarkdown: content,
     bodyHtml: marked.parse(content)
@@ -152,5 +152,5 @@ export function formatDate(dateIso: string, locale: Locale): string {
 }
 
 export function pageTitle(base: string, locale: Locale): string {
-  return locale === 'ru' ? `${base} · PhysMath Hub` : `${base} · PhysMath Hub`;
+  return locale === 'ru' ? `${base} · Channel Mirror` : `${base} · Channel Mirror`;
 }

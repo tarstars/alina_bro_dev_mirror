@@ -2,7 +2,7 @@ import { defineConfig } from 'astro/config';
 import { fileURLToPath } from 'node:url';
 
 export default defineConfig({
-  site: 'https://phys-math.dev',
+  site: process.env.PUBLIC_SITE_URL || 'https://example.com',
   output: 'static',
   trailingSlash: 'always',
   vite: {
