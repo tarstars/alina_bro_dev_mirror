@@ -1,10 +1,10 @@
 ---
 title: Channel Mirror
-subtitle: A shared space for people who love physics, mathematics, and programming.
+subtitle: Posts about life, travel, relocation, and tech.
 ---
 
-This project mirrors **your_channel_username** and turns daily channel knowledge into a durable, searchable archive.
+This project mirrors **alina_yerevan_js** and turns daily channel posts into a durable, searchable archive.
 
-The goal is simple: share useful ideas, keep them accessible, and help curious people connect across disciplines.
+The goal is simple: keep useful posts easy to find, preserve context, and make the archive reliable over time.
 
-If you enjoy learning how theory meets engineering practice, this hub is for you.
+If you like practical notes, city discoveries, and everyday engineering stories, this hub is for you.

@@ -19,6 +19,7 @@ import hashlib
 import json
 import mimetypes
 import os
+import re
 import shutil
 import tempfile
 from dataclasses import dataclass
@@ -210,13 +211,80 @@ def first_non_empty_line(text: str) -> str:
     return ''
 
 
-def build_title_and_summary(text: str, post_id: int) -> tuple[str, str]:
-    lead = first_non_empty_line(text)
-    title = lead[:130] if lead else f'Post {post_id}'
+def plain_preview_text(markdown: str) -> str:
+    text = markdown.replace('\r\n', '\n')
 
-    plain = ' '.join(part.strip() for part in text.splitlines() if part.strip())
-    summary = plain[:220]
+    # Drop fenced code blocks from previews.
+    text = re.sub(r'```[\s\S]*?```', ' ', text)
+
+    # Preserve human-readable parts, remove markdown wrappers.
+    text = re.sub(r'!\[([^\]]*)\]\([^)]+\)', r'\1', text)
+    text = re.sub(r'\[([^\]]+)\]\(\s*<([^>]+)>\s*\)', r'\1', text)
+    text = re.sub(r'\[([^\]]+)\]\(\s*([^)]+)\s*\)', r'\1', text)
+    text = re.sub(r'<(https?://[^>]+)>', r'\1', text)
+    text = re.sub(r'`([^`]+)`', r'\1', text)
+
+    # Strip common markdown list/quote/header prefixes line-by-line.
+    cleaned_lines: list[str] = []
+    for line in text.splitlines():
+        line = re.sub(r'^\s{0,3}(#{1,6}|\>|\-|\*|\+)\s+', '', line)
+        line = re.sub(r'^\s{0,3}\d+\.\s+', '', line)
+        cleaned_lines.append(line)
+
+    plain = ' '.join(part.strip() for part in cleaned_lines if part.strip())
+    plain = re.sub(r'\s+', ' ', plain).strip()
+    return plain
+
+
+def truncate_for_preview(text: str, limit: int) -> str:
+    if limit <= 0:
+        return ''
+    if len(text) <= limit:
+        return text
+
+    hard_limit = max(1, limit - 1)
+    chunk = text[: hard_limit + 1]
+    split_at = chunk.rfind(' ')
+    if split_at < int(hard_limit * 0.6):
+        split_at = hard_limit
+
+    return text[:split_at].rstrip(' ,;:-') + '…'
+
+
+def build_title_and_summary(text: str, post_id: int) -> tuple[str, str]:
+    lead = plain_preview_text(first_non_empty_line(text))
+    title = truncate_for_preview(lead, 130) if lead else f'Post {post_id}'
+
+    plain = plain_preview_text(text)
+    summary = truncate_for_preview(plain, 220)
     return title, summary
+
+
+def rebuild_en_previews() -> tuple[int, int]:
+    EN_DIR.mkdir(parents=True, exist_ok=True)
+
+    changed = 0
+    total = 0
+    for md_path in sorted(EN_DIR.glob('*.md'), key=lambda p: int(p.stem) if p.stem.isdigit() else p.stem):
+        post = frontmatter.load(md_path)
+        post_id = int(post.metadata.get('id') or int(md_path.stem))
+        title, summary = build_title_and_summary(normalize_markdown(post.content).strip(), post_id)
+
+        updated = False
+        if str(post.metadata.get('title') or '') != title:
+            post.metadata['title'] = title
+            updated = True
+        if str(post.metadata.get('summary') or '') != summary:
+            post.metadata['summary'] = summary
+            updated = True
+
+        total += 1
+        if updated:
+            post.metadata['updated_at'] = now_iso()
+            md_path.write_text(frontmatter.dumps(post), encoding='utf-8')
+            changed += 1
+
+    return changed, total
 
 
 def reaction_to_emoji(reaction: Any) -> str:
@@ -700,6 +768,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument('--dry-run', action='store_true', help='Run without writing files.')
     parser.add_argument('--skip-media', action='store_true', help='Skip all media download/upload and keep only text metadata.')
     parser.add_argument('--recent-window', type=int, default=None, help='Override recent message scan window.')
+    parser.add_argument('--rebuild-previews', action='store_true', help='Rebuild EN title/summary previews from local markdown files.')
     return parser.parse_args()
 
 
@@ -717,7 +786,7 @@ def load_config(args: argparse.Namespace) -> Config:
         api_id=api_id,
         api_hash=api_hash,
         string_session=string_session,
-        channel=env('TELEGRAM_CHANNEL', default='your_channel_username'),
+        channel=env('TELEGRAM_CHANNEL', default='alina_yerevan_js'),
         recent_window=recent,
         max_video_bytes=max_video_bytes,
         r2_endpoint=env('R2_ENDPOINT', default=''),
@@ -730,6 +799,12 @@ def load_config(args: argparse.Namespace) -> Config:
 
 def main() -> None:
     args = parse_args()
+
+    if args.rebuild_previews:
+        changed, total = rebuild_en_previews()
+        print(f'Rebuilt previews for {total} EN posts. Updated: {changed}')
+        return
+
     cfg = load_config(args)
 
     state = load_state()

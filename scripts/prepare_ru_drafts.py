@@ -90,7 +90,7 @@ def create_ru_draft(en_post: frontmatter.Post) -> frontmatter.Post:
         'summary': '',
         'date': en_meta['date'],
         'edited_at': en_meta.get('edited_at'),
-        'channel': en_meta.get('channel', 'your_channel_username'),
+        'channel': en_meta.get('channel', 'alina_yerevan_js'),
         'source_url': en_meta['source_url'],
         'source_hash': '',
         'deleted': en_meta.get('deleted', False),

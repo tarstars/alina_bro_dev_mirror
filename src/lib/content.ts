@@ -43,7 +43,7 @@ function toPost(locale: Locale, filePath: string): PostRecord {
     summary: String(data.summary ?? ''),
     date,
     edited_at: data.edited_at ? String(data.edited_at) : null,
-    channel: String(data.channel ?? 'your_channel_username'),
+    channel: String(data.channel ?? 'alina_yerevan_js'),
     source_url: String(data.source_url ?? ''),
     source_hash: String(data.source_hash ?? ''),
     deleted: Boolean(data.deleted ?? false),
@@ -124,7 +124,7 @@ export function getRuPostMap(options?: { includeDeleted?: boolean; includeDraft?
 export function getSiteText(locale: Locale): SiteText {
   const filePath = path.join(ROOT, 'content', 'site', `${locale}.md`);
   if (!fs.existsSync(filePath)) {
-    const fallback = locale === 'en' ? 'Channel Mirror' : 'Хаб ФизМат';
+    const fallback = locale === 'en' ? 'Channel Mirror' : 'Зеркало канала';
     return {
       title: fallback,
       subtitle: fallback,

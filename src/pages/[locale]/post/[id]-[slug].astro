@@ -59,7 +59,7 @@ if (!enPost || enPost.deleted) {
 
 const current = post ?? enPost;
 const title = pageTitle(current?.title ?? 'Post', locale);
-const description = current?.summary || (locale === 'ru' ? 'Публикация Channel Mirror.' : 'Channel Mirror post.');
+const description = current?.summary || (locale === 'ru' ? 'Публикация из Telegram-канала.' : 'Post from Telegram channel.');
 
 const site = import.meta.env.PUBLIC_SITE_URL || 'https://example.com';
 const postUrl = current ? new URL(`/${locale === 'en' ? 'en' : 'ru'}/post/${current.id}-${current.slug}/`, site).toString() : new URL(enPath, site).toString();
