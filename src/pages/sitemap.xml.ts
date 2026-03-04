@@ -1,4 +1,4 @@
-import { getEnPostMap, getLocalePosts, getRuPostMap } from '@/lib/content';
+import { getLocalePosts, getRuPostMap } from '@/lib/content';
 
 type UrlNode = {
   loc: string;
@@ -19,8 +19,8 @@ export function GET() {
   const site = (import.meta.env.PUBLIC_SITE_URL || 'https://example.com').replace(/\/$/, '');
   const urls: UrlNode[] = [];
 
-  const enPosts = Array.from(getEnPostMap({ includeDeleted: false }).values());
-  const ruMap = getRuPostMap({ includeDeleted: false, includeDraft: false });
+  const ruPosts = Array.from(getRuPostMap({ includeDeleted: false, includeDraft: true }).values());
+  const enMap = new Map(getLocalePosts('en', { includeDeleted: false, includeDraft: false }).map((post) => [post.id, post]));
 
   urls.push({
     loc: `${site}/en/`,
@@ -50,12 +50,13 @@ export function GET() {
     });
   }
 
-  for (const enPost of enPosts) {
-    const enLoc = `${site}${enPost.path}`;
-    const ruPost = ruMap.get(enPost.id);
+  for (const ruPost of ruPosts) {
+    const ruLoc = `${site}${ruPost.path}`;
+    const enPath = `/en/post/${ruPost.id}-${ruPost.slug}/`;
+    const enPost = enMap.get(ruPost.id);
 
-    if (ruPost) {
-      const ruLoc = `${site}${ruPost.path}`;
+    if (enPost) {
+      const enLoc = `${site}${enPath}`;
       urls.push({
         loc: enLoc,
         lastmod: enPost.edited_at || enPost.updated_at || enPost.date,
@@ -66,13 +67,14 @@ export function GET() {
         lastmod: ruPost.edited_at || ruPost.updated_at || ruPost.date,
         alternates: [enLoc, ruLoc]
       });
-    } else {
-      urls.push({
-        loc: enLoc,
-        lastmod: enPost.edited_at || enPost.updated_at || enPost.date,
-        alternates: [enLoc]
-      });
+      continue;
     }
+
+    urls.push({
+      loc: ruLoc,
+      lastmod: ruPost.edited_at || ruPost.updated_at || ruPost.date,
+      alternates: [ruLoc]
+    });
   }
 
   const body = `<?xml version="1.0" encoding="UTF-8"?>
@@ -86,8 +88,8 @@ ${urls
       })
       .join('\n');
 
-    const xDefault = node.alternates?.some((x) => x.includes('/en/'))
-      ? `\n    <xhtml:link rel="alternate" hreflang="x-default" href="${xmlEscape(node.alternates.find((x) => x.includes('/en/')) || `${site}/en/`)}" />`
+    const xDefault = node.alternates?.some((x) => x.includes('/ru/'))
+      ? `\n    <xhtml:link rel="alternate" hreflang="x-default" href="${xmlEscape(node.alternates.find((x) => x.includes('/ru/')) || `${site}/ru/`)}" />`
       : '';
 
     return `  <url>

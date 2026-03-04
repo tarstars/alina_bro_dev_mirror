@@ -6,7 +6,7 @@ export function GET(context: { site: URL | undefined }) {
 
   return rss({
     title: 'Channel Mirror (EN)',
-    description: 'Mirror feed of @alina_yerevan_js posts.',
+    description: 'English translations of @alina_yerevan_js posts.',
     site: context.site,
     customData: '<language>en-us</language>',
     items: posts.slice(0, 100).map((post) => ({

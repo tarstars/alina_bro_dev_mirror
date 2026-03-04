@@ -52,6 +52,7 @@ function toPost(locale: Locale, filePath: string): PostRecord {
     media: (Array.isArray(data.media) ? data.media : []) as PostFrontmatter['media'],
     translation_status: (data.translation_status as TranslationStatus | undefined) ?? undefined,
     en_source_hash: data.en_source_hash ? String(data.en_source_hash) : undefined,
+    ru_source_hash: data.ru_source_hash ? String(data.ru_source_hash) : undefined,
     updated_at: data.updated_at ? String(data.updated_at) : undefined
   };
 
@@ -91,7 +92,7 @@ export function getLocalePosts(locale: Locale, options?: { includeDraft?: boolea
       if (!includeDeleted && post.deleted) {
         return false;
       }
-      if (locale === 'ru' && !includeDraft && post.translation_status === 'draft') {
+      if (locale === 'en' && !includeDraft && post.translation_status === 'draft') {
         return false;
       }
       return true;

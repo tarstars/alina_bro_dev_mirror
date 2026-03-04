@@ -1,5 +1,5 @@
 ---
-import { formatDate, getRuPostMap } from '@/lib/content';
+import { formatDate, getEnPostMap } from '@/lib/content';
 import { UI } from '@/lib/i18n';
 import type { Locale, PostRecord } from '@/lib/types';
 
@@ -10,8 +10,8 @@ interface Props {
 
 const { post, locale } = Astro.props;
 
-const ruMap = locale === 'ru' ? getRuPostMap({ includeDeleted: true, includeDraft: true }) : null;
-const needsReview = locale === 'ru' && ruMap?.get(post.id)?.translation_status === 'needs_review';
+const enMap = locale === 'en' ? getEnPostMap({ includeDeleted: true }) : null;
+const needsReview = locale === 'en' && enMap?.get(post.id)?.translation_status === 'needs_review';
 ---
 
 <article class="post-card">
@@ -23,7 +23,7 @@ const needsReview = locale === 'ru' && ruMap?.get(post.id)?.translation_status =
     {post.summary && <p>{post.summary}</p>}
   </a>
 
-  {needsReview && <p class="needs-review">Updated EN source detected; RU may need revision.</p>}
+  {needsReview && <p class="needs-review">Updated RU source detected; EN translation may need revision.</p>}
 
   <div class="post-meta-row">
     <a class="source-link" href={post.source_url} target="_blank" rel="noopener noreferrer">

@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
-"""Incremental Telegram sync for EN mirror content.
+"""Incremental Telegram sync for RU source mirror content.
 
 Features:
 - Full backfill on first run (or --full-backfill)
 - Incremental daily updates
 - Edit detection via source hash
-- Deletion audit (marks posts deleted for EN and RU)
+- Deletion audit (marks posts deleted for RU source and EN translation)
 - Media upload to Cloudflare R2 (or local fallback)
-- RU state update: reviewed -> needs_review when EN source changes
+- EN translation state update: reviewed -> needs_review when RU source changes
 """
 
 from __future__ import annotations
@@ -48,6 +48,9 @@ EN_DIR = ROOT / 'content' / 'en' / 'posts'
 RU_DIR = ROOT / 'content' / 'ru' / 'posts'
 STATE_PATH = ROOT / 'data' / 'state' / 'en_sync_state.json'
 LOCAL_MEDIA_DIR = ROOT / 'public' / 'media' / 'local'
+
+SOURCE_LOCALE = 'ru'
+TRANSLATION_LOCALE = 'en'
 
 
 def now_iso() -> str:
@@ -260,12 +263,13 @@ def build_title_and_summary(text: str, post_id: int) -> tuple[str, str]:
     return title, summary
 
 
-def rebuild_en_previews() -> tuple[int, int]:
-    EN_DIR.mkdir(parents=True, exist_ok=True)
+def rebuild_source_previews() -> tuple[int, int]:
+    source_dir = RU_DIR if SOURCE_LOCALE == 'ru' else EN_DIR
+    source_dir.mkdir(parents=True, exist_ok=True)
 
     changed = 0
     total = 0
-    for md_path in sorted(EN_DIR.glob('*.md'), key=lambda p: int(p.stem) if p.stem.isdigit() else p.stem):
+    for md_path in sorted(source_dir.glob('*.md'), key=lambda p: int(p.stem) if p.stem.isdigit() else p.stem):
         post = frontmatter.load(md_path)
         post_id = int(post.metadata.get('id') or int(md_path.stem))
         title, summary = build_title_and_summary(normalize_markdown(post.content).strip(), post_id)
@@ -571,31 +575,31 @@ def mark_deleted_in_locale(locale: str, post_id: int) -> bool:
     return True
 
 
-def sync_ru_state_from_en(post_id: int, en_hash: str, deleted: bool) -> bool:
-    post = load_post('ru', post_id)
+def sync_en_state_from_ru(post_id: int, ru_hash: str, deleted: bool) -> bool:
+    post = load_post(TRANSLATION_LOCALE, post_id)
     if not post:
         return False
 
     changed = False
     status = post.metadata.get('translation_status', 'draft')
-    old_hash = str(post.metadata.get('en_source_hash') or '')
+    old_hash = str(post.metadata.get('ru_source_hash') or post.metadata.get('en_source_hash') or '')
 
     if post.metadata.get('deleted') != deleted:
         post.metadata['deleted'] = deleted
         changed = True
 
-    if not deleted and old_hash and old_hash != en_hash and status in {'reviewed', 'needs_review'}:
+    if not deleted and old_hash and old_hash != ru_hash and status in {'reviewed', 'needs_review'}:
         if status != 'needs_review':
             post.metadata['translation_status'] = 'needs_review'
             changed = True
 
-    if old_hash != en_hash:
-        post.metadata['en_source_hash'] = en_hash
+    if old_hash != ru_hash:
+        post.metadata['ru_source_hash'] = ru_hash
         changed = True
 
     if changed:
         post.metadata['updated_at'] = now_iso()
-        save_post('ru', post_id, post)
+        save_post(TRANSLATION_LOCALE, post_id, post)
 
     return changed
 
@@ -660,7 +664,7 @@ async def run_sync(
 
     updated = 0
     unchanged = 0
-    ru_touched = 0
+    en_touched = 0
     deleted_marked = 0
 
     async with TelegramClient(StringSession(cfg.string_session), cfg.api_id, cfg.api_hash) as client:
@@ -677,7 +681,7 @@ async def run_sync(
             reactions = extract_reactions(primary)
             source_hash = build_source_hash(primary, group, text, reactions)
 
-            existing = load_post('en', primary.id)
+            existing = load_post(SOURCE_LOCALE, primary.id)
             existing_hash = str(existing.metadata.get('source_hash') if existing else '')
             existing_deleted = bool(existing.metadata.get('deleted')) if existing else False
 
@@ -719,11 +723,11 @@ async def run_sync(
 
             post = frontmatter.Post(text, **payload)
             if not dry_run:
-                save_post('en', primary.id, post)
+                save_post(SOURCE_LOCALE, primary.id, post)
             updated += 1
 
-            if sync_ru_state_from_en(primary.id, source_hash, deleted=False):
-                ru_touched += 1
+            if sync_en_state_from_ru(primary.id, source_hash, deleted=False):
+                en_touched += 1
 
         latest = await client.get_messages(entity, limit=1)
         latest_id = 0
@@ -732,43 +736,43 @@ async def run_sync(
         elif latest:
             latest_id = int(getattr(latest, 'id', 0) or 0)
 
-        known_ids = iter_existing_ids('en')
+        known_ids = iter_existing_ids(SOURCE_LOCALE)
 
         if not skip_delete_audit and known_ids:
             missing_ids = await audit_deletions(client, entity, known_ids)
             for post_id in missing_ids:
                 marked = False
-                if mark_deleted_in_locale('en', post_id):
+                if mark_deleted_in_locale(TRANSLATION_LOCALE, post_id):
                     marked = True
                     deleted_marked += 1
-                if mark_deleted_in_locale('ru', post_id):
+                if mark_deleted_in_locale(SOURCE_LOCALE, post_id):
                     marked = True
                 if marked:
-                    ru_touched += 1
+                    en_touched += 1
 
         state['last_max_id'] = max(int(state.get('last_max_id') or 0), latest_id)
         state['last_sync_at'] = now_iso()
-        state['known_ids'] = iter_existing_ids('en')
+        state['known_ids'] = iter_existing_ids(SOURCE_LOCALE)
 
         if not dry_run:
             save_state(state)
 
     print('Sync complete')
-    print(f'Updated EN posts: {updated}')
-    print(f'Unchanged EN posts: {unchanged}')
-    print(f'RU metadata touched: {ru_touched}')
+    print(f'Updated RU source posts: {updated}')
+    print(f'Unchanged RU source posts: {unchanged}')
+    print(f'EN translation metadata touched: {en_touched}')
     print(f'Marked deleted: {deleted_marked}')
     print(f'Current max message id: {state.get("last_max_id")}')
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description='Sync Telegram channel into EN content files incrementally.')
+    parser = argparse.ArgumentParser(description='Sync Telegram channel into RU source content files incrementally.')
     parser.add_argument('--full-backfill', action='store_true', help='Force full history fetch.')
     parser.add_argument('--skip-delete-audit', action='store_true', help='Skip deleted post audit.')
     parser.add_argument('--dry-run', action='store_true', help='Run without writing files.')
     parser.add_argument('--skip-media', action='store_true', help='Skip all media download/upload and keep only text metadata.')
     parser.add_argument('--recent-window', type=int, default=None, help='Override recent message scan window.')
-    parser.add_argument('--rebuild-previews', action='store_true', help='Rebuild EN title/summary previews from local markdown files.')
+    parser.add_argument('--rebuild-previews', action='store_true', help='Rebuild RU source title/summary previews from local markdown files.')
     return parser.parse_args()
 
 
@@ -801,8 +805,8 @@ def main() -> None:
     args = parse_args()
 
     if args.rebuild_previews:
-        changed, total = rebuild_en_previews()
-        print(f'Rebuilt previews for {total} EN posts. Updated: {changed}')
+        changed, total = rebuild_source_previews()
+        print(f'Rebuilt previews for {total} RU source posts. Updated: {changed}')
         return
 
     cfg = load_config(args)

@@ -35,6 +35,7 @@ export interface PostFrontmatter {
   media?: MediaItem[];
   translation_status?: TranslationStatus;
   en_source_hash?: string;
+  ru_source_hash?: string;
   updated_at?: string;
 }
 

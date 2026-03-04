@@ -7,8 +7,10 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
+    "sync:ru": "python3 scripts/sync_telegram.py",
     "sync:en": "python3 scripts/sync_telegram.py",
-    "translate:ru": "python3 scripts/prepare_ru_drafts.py",
+    "translate:en": "python3 scripts/prepare_en_drafts.py",
+    "translate:ru": "python3 scripts/prepare_en_drafts.py",
     "check": "npm run build"
   },
   "dependencies": {

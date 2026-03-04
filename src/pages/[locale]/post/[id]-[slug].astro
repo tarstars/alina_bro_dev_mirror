@@ -5,9 +5,9 @@ import { LOCALES, UI } from '@/lib/i18n';
 import type { Locale, PostRecord } from '@/lib/types';
 
 export function getStaticPaths() {
-  const enPosts = Array.from(getEnPostMap({ includeDeleted: false }).values());
+  const ruPosts = Array.from(getRuPostMap({ includeDeleted: false, includeDraft: true }).values());
 
-  return enPosts.flatMap((post) => [
+  return ruPosts.flatMap((post) => [
     {
       params: {
         locale: 'en',
@@ -31,38 +31,39 @@ if (!LOCALES.includes(locale)) {
 }
 
 const id = Number(Astro.params.id);
-const enPost = getEnPostMap({ includeDeleted: true }).get(id);
 const ruPost = getRuPostMap({ includeDeleted: true, includeDraft: true }).get(id);
+const enPost = getEnPostMap({ includeDeleted: true }).get(id);
 
-const enPath = enPost ? `/en/post/${enPost.id}-${enPost.slug}/` : '/en/';
-const ruPath = ruPost && ruPost.translation_status !== 'draft' && !ruPost.deleted ? `/ru/post/${enPost?.id}-${enPost?.slug}/` : enPath;
+const slugBase = ruPost?.slug || enPost?.slug || `post-${id}`;
+const ruPath = `/ru/post/${id}-${slugBase}/`;
+const enPath = enPost && !enPost.deleted && enPost.translation_status !== 'draft' ? `/en/post/${id}-${slugBase}/` : ruPath;
 
 let post: PostRecord | undefined;
 let redirectTarget: string | null = null;
 let noIndex = false;
 
-if (locale === 'en') {
-  post = enPost;
+if (locale === 'ru') {
+  post = ruPost;
 } else {
-  if (!ruPost || ruPost.deleted || ruPost.translation_status === 'draft') {
-    redirectTarget = enPath;
+  if (!enPost || enPost.deleted || enPost.translation_status === 'draft') {
+    redirectTarget = ruPath;
     noIndex = true;
   } else {
-    post = ruPost;
+    post = enPost;
   }
 }
 
-if (!enPost || enPost.deleted) {
+if (!ruPost || ruPost.deleted) {
   Astro.response.status = 404;
   noIndex = true;
 }
 
-const current = post ?? enPost;
+const current = post ?? ruPost;
 const title = pageTitle(current?.title ?? 'Post', locale);
 const description = current?.summary || (locale === 'ru' ? 'Публикация из Telegram-канала.' : 'Post from Telegram channel.');
 
 const site = import.meta.env.PUBLIC_SITE_URL || 'https://example.com';
-const postUrl = current ? new URL(`/${locale === 'en' ? 'en' : 'ru'}/post/${current.id}-${current.slug}/`, site).toString() : new URL(enPath, site).toString();
+const postUrl = new URL(locale === 'en' ? enPath : ruPath, site).toString();
 const image = current?.media?.find((item) => item.kind === 'photo' || item.kind === 'video')?.url;
 
 const structuredData = current
@@ -90,7 +91,7 @@ const structuredData = current
   : null;
 ---
 
-{!enPost || enPost.deleted ? (
+{!ruPost || ruPost.deleted ? (
   <BaseLayout
     title="404 · Channel Mirror"
     description="Post not found"
@@ -112,7 +113,7 @@ const structuredData = current
     title={title}
     description={description}
     locale={locale}
-    canonicalPath={enPath}
+    canonicalPath={ruPath}
     enPath={enPath}
     ruPath={ruPath}
     noIndex={noIndex}
@@ -120,7 +121,7 @@ const structuredData = current
     <section class="redirect-message">
       <p>{UI[locale].translationPending}</p>
       <p>
-        <a href={redirectTarget}>{locale === 'ru' ? 'Открыть EN версию' : 'Open EN version'}</a>
+        <a href={redirectTarget}>{locale === 'ru' ? 'Открыть RU версию' : 'Open RU version'}</a>
       </p>
     </section>
     <script is:inline>
@@ -132,7 +133,7 @@ const structuredData = current
     title={title}
     description={description}
     locale={locale}
-    canonicalPath={current?.path ?? enPath}
+    canonicalPath={locale === 'en' ? enPath : ruPath}
     enPath={enPath}
     ruPath={ruPath}
     noIndex={noIndex}

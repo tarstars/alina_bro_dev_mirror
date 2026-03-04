@@ -1,5 +1,5 @@
 ---
-const target = '/en/';
+const target = '/ru/';
 const site = import.meta.env.PUBLIC_SITE_URL || 'https://example.com';
 const canonical = new URL(target, site).toString();
 ---
@@ -16,7 +16,7 @@ const canonical = new URL(target, site).toString();
   <body>
     <p>Redirecting to <a href={target}>{target}</a></p>
     <script is:inline>
-      window.location.replace('/en/');
+      window.location.replace('/ru/');
     </script>
   </body>
 </html>

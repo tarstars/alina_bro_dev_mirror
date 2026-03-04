@@ -2,13 +2,13 @@
 
 Bilingual static mirror template for Telegram channels.
 
-This repository contains infrastructure only (sync scripts, build/deploy pipelines, and site shell) with no imported channel content.
+This repository contains mirror infrastructure (sync scripts, translation workflow, build/deploy pipelines, and site shell).
 
 ## What is included
 
 - `/en/...` and `/ru/...` routes
-- daily EN incremental sync from Telegram API
-- RU workflow with draft/review statuses and non-destructive updates
+- daily RU source sync from Telegram API
+- EN translation workflow with draft/review statuses and non-destructive updates
 - SEO-friendly static pages (robots/sitemap/rss)
 - deploy from GitHub Actions to Cloudflare Pages via Wrangler
 
@@ -31,16 +31,16 @@ pip install -r requirements.txt
 
 2. Create `.env` from `.env.example` and fill all required variables.
 
-3. Run EN sync:
+3. Run RU source sync:
 
 ```bash
-npm run sync:en
+npm run sync:ru
 ```
 
-4. Prepare RU drafts/review queue:
+4. Prepare EN drafts/review queue:
 
 ```bash
-npm run translate:ru
+npm run translate:en
 ```
 
 5. Start site:
@@ -51,18 +51,18 @@ npm run dev
 
 ## Content model
 
-- EN posts: `content/en/posts/{id}.md`
-- RU posts: `content/ru/posts/{id}.md`
+- RU source posts: `content/ru/posts/{id}.md`
+- EN translation posts: `content/en/posts/{id}.md`
 - Site descriptions:
   - `content/site/en.md`
   - `content/site/ru.md`
 - Sync state: `data/state/en_sync_state.json`
 
-RU status values:
+EN translation status values:
 
-- `draft`: hidden from RU public pages (redirect to EN equivalent)
+- `draft`: hidden from EN public pages (redirect to RU source)
 - `reviewed`: public/indexable
-- `needs_review`: public/indexable after EN changed
+- `needs_review`: public/indexable after RU source changed
 - `locked`: public/indexable, never auto-modified
 
 ## GitHub secrets
@@ -88,7 +88,7 @@ Configure these repository secrets:
 
 Workflow `.github/workflows/daily-sync-deploy.yml` runs daily at `18:00 UTC`:
 
-1. sync EN content incrementally
+1. sync RU source content incrementally
 2. commit content changes to `main` (if any)
 3. build Astro site
 4. deploy to Cloudflare Pages via Wrangler
