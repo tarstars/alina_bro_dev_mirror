@@ -1,0 +1,123 @@
+# EN Translation Checklist
+
+- [x] `18` /ru/posts/18.md -> /en/posts/18.md
+- [x] `20` /ru/posts/20.md -> /en/posts/20.md
+- [x] `21` /ru/posts/21.md -> /en/posts/21.md
+- [x] `22` /ru/posts/22.md -> /en/posts/22.md
+- [x] `23` /ru/posts/23.md -> /en/posts/23.md
+- [x] `24` /ru/posts/24.md -> /en/posts/24.md
+- [x] `25` /ru/posts/25.md -> /en/posts/25.md
+- [x] `27` /ru/posts/27.md -> /en/posts/27.md
+- [x] `29` /ru/posts/29.md -> /en/posts/29.md
+- [x] `30` /ru/posts/30.md -> /en/posts/30.md
+- [x] `31` /ru/posts/31.md -> /en/posts/31.md
+- [x] `32` /ru/posts/32.md -> /en/posts/32.md
+- [x] `36` /ru/posts/36.md -> /en/posts/36.md
+- [x] `37` /ru/posts/37.md -> /en/posts/37.md
+- [x] `38` /ru/posts/38.md -> /en/posts/38.md
+- [x] `40` /ru/posts/40.md -> /en/posts/40.md
+- [x] `41` /ru/posts/41.md -> /en/posts/41.md
+- [x] `42` /ru/posts/42.md -> /en/posts/42.md
+- [x] `43` /ru/posts/43.md -> /en/posts/43.md
+- [x] `44` /ru/posts/44.md -> /en/posts/44.md
+- [x] `46` /ru/posts/46.md -> /en/posts/46.md
+- [x] `48` /ru/posts/48.md -> /en/posts/48.md
+- [x] `49` /ru/posts/49.md -> /en/posts/49.md
+- [x] `51` /ru/posts/51.md -> /en/posts/51.md
+- [x] `56` /ru/posts/56.md -> /en/posts/56.md
+- [x] `64` /ru/posts/64.md -> /en/posts/64.md
+- [x] `65` /ru/posts/65.md -> /en/posts/65.md
+- [x] `66` /ru/posts/66.md -> /en/posts/66.md
+- [x] `72` /ru/posts/72.md -> /en/posts/72.md
+- [x] `73` /ru/posts/73.md -> /en/posts/73.md
+- [x] `74` /ru/posts/74.md -> /en/posts/74.md
+- [x] `75` /ru/posts/75.md -> /en/posts/75.md
+- [x] `76` /ru/posts/76.md -> /en/posts/76.md
+- [x] `77` /ru/posts/77.md -> /en/posts/77.md
+- [x] `78` /ru/posts/78.md -> /en/posts/78.md
+- [x] `80` /ru/posts/80.md -> /en/posts/80.md
+- [x] `81` /ru/posts/81.md -> /en/posts/81.md
+- [x] `82` /ru/posts/82.md -> /en/posts/82.md
+- [x] `83` /ru/posts/83.md -> /en/posts/83.md
+- [x] `84` /ru/posts/84.md -> /en/posts/84.md
+- [x] `85` /ru/posts/85.md -> /en/posts/85.md
+- [x] `86` /ru/posts/86.md -> /en/posts/86.md
+- [x] `87` /ru/posts/87.md -> /en/posts/87.md
+- [x] `88` /ru/posts/88.md -> /en/posts/88.md
+- [x] `89` /ru/posts/89.md -> /en/posts/89.md
+- [x] `90` /ru/posts/90.md -> /en/posts/90.md
+- [x] `91` /ru/posts/91.md -> /en/posts/91.md
+- [x] `92` /ru/posts/92.md -> /en/posts/92.md
+- [x] `93` /ru/posts/93.md -> /en/posts/93.md
+- [x] `98` /ru/posts/98.md -> /en/posts/98.md
+- [x] `99` /ru/posts/99.md -> /en/posts/99.md
+- [x] `100` /ru/posts/100.md -> /en/posts/100.md
+- [x] `107` /ru/posts/107.md -> /en/posts/107.md
+- [x] `113` /ru/posts/113.md -> /en/posts/113.md
+- [x] `116` /ru/posts/116.md -> /en/posts/116.md
+- [x] `117` /ru/posts/117.md -> /en/posts/117.md
+- [x] `118` /ru/posts/118.md -> /en/posts/118.md
+- [x] `120` /ru/posts/120.md -> /en/posts/120.md
+- [x] `121` /ru/posts/121.md -> /en/posts/121.md
+- [x] `122` /ru/posts/122.md -> /en/posts/122.md
+- [x] `127` /ru/posts/127.md -> /en/posts/127.md
+- [x] `129` /ru/posts/129.md -> /en/posts/129.md
+- [x] `132` /ru/posts/132.md -> /en/posts/132.md
+- [x] `133` /ru/posts/133.md -> /en/posts/133.md
+- [x] `134` /ru/posts/134.md -> /en/posts/134.md
+- [x] `135` /ru/posts/135.md -> /en/posts/135.md
+- [x] `139` /ru/posts/139.md -> /en/posts/139.md
+- [x] `142` /ru/posts/142.md -> /en/posts/142.md
+- [x] `143` /ru/posts/143.md -> /en/posts/143.md
+- [ ] `147` /ru/posts/147.md -> /en/posts/147.md
+- [ ] `149` /ru/posts/149.md -> /en/posts/149.md
+- [ ] `152` /ru/posts/152.md -> /en/posts/152.md
+- [ ] `153` /ru/posts/153.md -> /en/posts/153.md
+- [ ] `154` /ru/posts/154.md -> /en/posts/154.md
+- [ ] `155` /ru/posts/155.md -> /en/posts/155.md
+- [ ] `157` /ru/posts/157.md -> /en/posts/157.md
+- [ ] `158` /ru/posts/158.md -> /en/posts/158.md
+- [ ] `161` /ru/posts/161.md -> /en/posts/161.md
+- [ ] `167` /ru/posts/167.md -> /en/posts/167.md
+- [ ] `172` /ru/posts/172.md -> /en/posts/172.md
+- [ ] `179` /ru/posts/179.md -> /en/posts/179.md
+- [ ] `183` /ru/posts/183.md -> /en/posts/183.md
+- [ ] `187` /ru/posts/187.md -> /en/posts/187.md
+- [ ] `188` /ru/posts/188.md -> /en/posts/188.md
+- [ ] `189` /ru/posts/189.md -> /en/posts/189.md
+- [ ] `190` /ru/posts/190.md -> /en/posts/190.md
+- [ ] `195` /ru/posts/195.md -> /en/posts/195.md
+- [ ] `196` /ru/posts/196.md -> /en/posts/196.md
+- [ ] `200` /ru/posts/200.md -> /en/posts/200.md
+- [ ] `203` /ru/posts/203.md -> /en/posts/203.md
+- [ ] `208` /ru/posts/208.md -> /en/posts/208.md
+- [ ] `211` /ru/posts/211.md -> /en/posts/211.md
+- [ ] `217` /ru/posts/217.md -> /en/posts/217.md
+- [ ] `222` /ru/posts/222.md -> /en/posts/222.md
+- [ ] `223` /ru/posts/223.md -> /en/posts/223.md
+- [ ] `225` /ru/posts/225.md -> /en/posts/225.md
+- [ ] `226` /ru/posts/226.md -> /en/posts/226.md
+- [ ] `230` /ru/posts/230.md -> /en/posts/230.md
+- [ ] `231` /ru/posts/231.md -> /en/posts/231.md
+- [ ] `235` /ru/posts/235.md -> /en/posts/235.md
+- [ ] `237` /ru/posts/237.md -> /en/posts/237.md
+- [ ] `240` /ru/posts/240.md -> /en/posts/240.md
+- [ ] `244` /ru/posts/244.md -> /en/posts/244.md
+- [ ] `249` /ru/posts/249.md -> /en/posts/249.md
+- [ ] `250` /ru/posts/250.md -> /en/posts/250.md
+- [ ] `253` /ru/posts/253.md -> /en/posts/253.md
+- [ ] `254` /ru/posts/254.md -> /en/posts/254.md
+- [ ] `255` /ru/posts/255.md -> /en/posts/255.md
+- [ ] `260` /ru/posts/260.md -> /en/posts/260.md
+- [ ] `264` /ru/posts/264.md -> /en/posts/264.md
+- [ ] `268` /ru/posts/268.md -> /en/posts/268.md
+- [ ] `270` /ru/posts/270.md -> /en/posts/270.md
+- [ ] `271` /ru/posts/271.md -> /en/posts/271.md
+- [ ] `272` /ru/posts/272.md -> /en/posts/272.md
+- [ ] `277` /ru/posts/277.md -> /en/posts/277.md
+- [ ] `284` /ru/posts/284.md -> /en/posts/284.md
+- [ ] `291` /ru/posts/291.md -> /en/posts/291.md
+- [ ] `301` /ru/posts/301.md -> /en/posts/301.md
+- [ ] `303` /ru/posts/303.md -> /en/posts/303.md
+- [ ] `306` /ru/posts/306.md -> /en/posts/306.md
+- [ ] `309` /ru/posts/309.md -> /en/posts/309.md
