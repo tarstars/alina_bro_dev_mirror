@@ -45,6 +45,10 @@ jobs:
         run: |
           python scripts/sync_telegram.py
 
+      - name: Prepare EN drafts and review queue
+        run: |
+          python scripts/prepare_en_drafts.py
+
       - name: Commit synced content if changed
         run: |
           if [[ -n "$(git status --porcelain content/en/posts content/ru/posts data/state)" ]]; then
