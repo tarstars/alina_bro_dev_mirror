@@ -1,14 +1,13 @@
 # EN Translation Queue
 
-Generated: 2026-04-09T18:23:27.161125+00:00
+Generated: 2026-04-10T18:19:28.298472+00:00
 
-- New drafts: **2**
+- New drafts: **0**
 - Needs review: **0**
 
 ## New Drafts
 
-- `124` · Post 124 · https://t.me/alina_yerevan_js/124
-- `397` · История канала · https://t.me/alina_yerevan_js/397
+- None
 
 ## Needs Review
 
