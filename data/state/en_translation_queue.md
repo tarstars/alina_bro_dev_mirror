@@ -1,13 +1,13 @@
 # EN Translation Queue
 
-Generated: 2026-04-15T18:27:40.642305+00:00
+Generated: 2026-04-16T18:27:47.283088+00:00
 
-- New drafts: **1**
+- New drafts: **0**
 - Needs review: **0**
 
 ## New Drafts
 
-- `398` · Музей науки и технологии Еревана · https://t.me/alina_yerevan_js/398
+- None
 
 ## Needs Review
 
