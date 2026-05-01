@@ -1,13 +1,13 @@
 # EN Translation Queue
 
-Generated: 2026-04-30T18:32:42.859684+00:00
+Generated: 2026-05-01T18:26:12.184256+00:00
 
-- New drafts: **0**
+- New drafts: **1**
 - Needs review: **0**
 
 ## New Drafts
 
-- None
+- `423` · Ереван. Прогулки · https://t.me/alina_yerevan_js/423
 
 ## Needs Review
 
