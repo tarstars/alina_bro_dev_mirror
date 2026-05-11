@@ -1,13 +1,13 @@
 # EN Translation Queue
 
-Generated: 2026-05-10T18:21:50.810668+00:00
+Generated: 2026-05-11T18:40:08.169207+00:00
 
-- New drafts: **1**
+- New drafts: **0**
 - Needs review: **0**
 
 ## New Drafts
 
-- `457` · Армения. Джермук ч.1 · https://t.me/alina_yerevan_js/457
+- None
 
 ## Needs Review
 
