@@ -1,13 +1,14 @@
 # EN Translation Queue
 
-Generated: 2026-05-16T18:21:09.892111+00:00
+Generated: 2026-05-17T18:24:37.900660+00:00
 
-- New drafts: **0**
+- New drafts: **2**
 - Needs review: **0**
 
 ## New Drafts
 
-- None
+- `214` · Post 214 · https://t.me/alina_yerevan_js/214
+- `477` · Водопад Шаки. Чёртов мост. Смотровая · https://t.me/alina_yerevan_js/477
 
 ## Needs Review
 
