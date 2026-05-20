@@ -1,14 +1,13 @@
 # EN Translation Queue
 
-Generated: 2026-05-19T18:40:23.014795+00:00
+Generated: 2026-05-20T18:50:12.387047+00:00
 
-- New drafts: **2**
+- New drafts: **0**
 - Needs review: **0**
 
 ## New Drafts
 
-- `221` · Post 221 · https://t.me/alina_yerevan_js/221
-- `491` · Джермук ч.2. Водопад. · https://t.me/alina_yerevan_js/491
+- None
 
 ## Needs Review
 
