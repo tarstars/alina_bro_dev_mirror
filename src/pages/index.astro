@@ -1,4 +1,6 @@
 ---
+import GoogleAnalytics from '@/components/GoogleAnalytics.astro';
+
 const target = '/ru/';
 const site = import.meta.env.PUBLIC_SITE_URL || 'https://example.com';
 const canonical = new URL(target, site).toString();
@@ -8,6 +10,7 @@ const canonical = new URL(target, site).toString();
 <html lang="en">
   <head>
     <meta charset="utf-8" />
+    <GoogleAnalytics />
     <meta http-equiv="refresh" content={`0; url=${target}`} />
     <link rel="canonical" href={canonical} />
     <meta name="robots" content="noindex,follow" />

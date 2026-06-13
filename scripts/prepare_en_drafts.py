@@ -21,7 +21,6 @@ SYNC_KEYS = [
     'edited_at',
     'channel',
     'source_url',
-    'summary',
     'album_id',
     'reactions',
     'media',
