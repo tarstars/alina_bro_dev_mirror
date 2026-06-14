@@ -3,6 +3,7 @@ import '@/styles/global.css';
 import LanguageSwitch from '@/components/LanguageSwitch.astro';
 import ThemeToggle from '@/components/ThemeToggle.astro';
 import GoogleAnalytics from '@/components/GoogleAnalytics.astro';
+import YandexMetrika from '@/components/YandexMetrika.astro';
 import { UI, oppositeLocale } from '@/lib/i18n';
 import type { Locale } from '@/lib/types';
 
@@ -44,6 +45,7 @@ const opposite = oppositeLocale(locale);
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <GoogleAnalytics />
+    <YandexMetrika />
 
     <link rel="icon" type="image/png" href="/favicon-big.png" />
     <title>{title}</title>
