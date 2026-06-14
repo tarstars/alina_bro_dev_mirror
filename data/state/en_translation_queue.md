@@ -1,14 +1,13 @@
 # EN Translation Queue
 
-Generated: 2026-06-13T18:31:33.886663+00:00
+Generated: 2026-06-14T16:26:39.771945+00:00
 
-- New drafts: **2**
+- New drafts: **0**
 - Needs review: **0**
 
 ## New Drafts
 
-- `252` · Post 252 · https://t.me/alina_yerevan_js/252
-- `527` · Технотред. Навигация (JS, математика, аналитика) · https://t.me/alina_yerevan_js/527
+- None
 
 ## Needs Review
 
