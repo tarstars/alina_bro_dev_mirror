@@ -1,14 +1,13 @@
 # EN Translation Queue
 
-Generated: 2026-06-29T18:43:19.362963+00:00
+Generated: 2026-06-30T18:39:21.098439+00:00
 
-- New drafts: **2**
+- New drafts: **0**
 - Needs review: **0**
 
 ## New Drafts
 
-- `259` · Post 259 · https://t.me/alina_yerevan_js/259
-- `531` · Черногория. Пляжное. Остров св. Николая · https://t.me/alina_yerevan_js/531
+- None
 
 ## Needs Review
 
