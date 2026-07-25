@@ -1,13 +1,13 @@
 # EN Translation Queue
 
-Generated: 2026-07-24T18:32:13.959955+00:00
+Generated: 2026-07-25T18:19:31.655034+00:00
 
-- New drafts: **1**
+- New drafts: **0**
 - Needs review: **0**
 
 ## New Drafts
 
-- `558` · Москва купеческая · https://t.me/alina_yerevan_js/558
+- None
 
 ## Needs Review
 
