@@ -1,13 +1,13 @@
 # EN Translation Queue
 
-Generated: 2026-08-17T18:08:41.111050+00:00
+Generated: 2026-08-18T18:08:14.282879+00:00
 
-- New drafts: **0**
+- New drafts: **1**
 - Needs review: **0**
 
 ## New Drafts
 
-- None
+- `578` · Санкт-Петербург "парадный" день первый. · https://t.me/alina_yerevan_js/578
 
 ## Needs Review
 
