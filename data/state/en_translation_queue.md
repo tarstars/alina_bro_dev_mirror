@@ -1,14 +1,13 @@
 # EN Translation Queue
 
-Generated: 2026-09-11T18:11:24.575358+00:00
+Generated: 2026-09-12T18:10:34.608626+00:00
 
-- New drafts: **2**
+- New drafts: **0**
 - Needs review: **0**
 
 ## New Drafts
 
-- `339` · Post 339 · https://t.me/alina_yerevan_js/339
-- `605` · Осенний. Летний Ереван. Пятничное. · https://t.me/alina_yerevan_js/605
+- None
 
 ## Needs Review
 
