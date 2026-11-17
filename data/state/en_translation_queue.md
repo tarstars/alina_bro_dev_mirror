@@ -1,6 +1,6 @@
 # EN Translation Queue
 
-Generated: 2026-11-16T18:07:39.706101+00:00
+Generated: 2026-11-17T18:07:45.310840+00:00
 
 - New drafts: **0**
 - Needs review: **0**
